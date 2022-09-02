@@ -9,7 +9,8 @@ public class PostVO {
 	protected	String	postPassword; // 글 비밀번호
 	protected	String 	posterName; // 작성자 이름
 	protected	Date	postCreatedDate; // 작성날짜
-	protected	Date	postModifyDate;
+	protected	Date	postModifyDate; // 수정날짜
+	protected	int		repost; // 답글 그룹 번호
 	
 	// getter, setter
 	public int getPostNo() {
@@ -65,6 +66,14 @@ public class PostVO {
 	}
 	public PostVO setPostModifyDate(Date postModifyDate) {
 		this.postModifyDate = postModifyDate;
+		return this;
+	}
+	
+	public int getRepost() {
+		return repost;
+	}
+	public PostVO setRepost(int repost) {
+		this.repost = repost;
 		return this;
 	}
 }
