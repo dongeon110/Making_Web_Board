@@ -1,5 +1,6 @@
 # Making_Web_Board
 게시판을 만들어 봅시다  
+시작부터 큰 그림을 그리지 말고 작은 것 부터 만들고 기능을 추가하는 방식!
 
 ## Remember
 - DataSource 때문에 Server 설정한 파일은 완성되면 올려두기!
