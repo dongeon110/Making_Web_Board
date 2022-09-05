@@ -91,6 +91,8 @@ public class PostDao {
 					"SELECT pno, psubject, ptext, postername, cre_date, mod_date, repost"
 					+ " FROM board"
 					+ " WHERE pno = " + postNo);
+			rs.next();
+			
 			PostVO postVO = new PostVO()
 					.setPostNo(rs.getInt("pno"))
 					.setPostSubject(rs.getString("psubject"))
@@ -109,4 +111,62 @@ public class PostDao {
 			try {if (conn != null) conn.close();} catch (Exception e) {};
 		}
 	}
+	
+	// PostUpdateServlet - ID, PWD 확인
+	public boolean checkPw(PostVO postVO) throws Exception {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = ds.getConnection();
+			stmt = conn.prepareStatement(
+					"SELECT count(*) FROM board"
+					+ " WHERE pno=? and ppwd=?");
+			stmt.setInt(1, postVO.getPostNo());
+			stmt.setString(2, postVO.getPostPassword());
+			rs = stmt.executeQuery();
+			
+			if (rs.next()) {
+				if (rs.getInt("count") == 1) {
+					
+					return true;
+				} else {return false;}
+			}
+			
+			return false;
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			try {if (rs != null) rs.close();} catch (Exception e) {};
+			try {if (stmt != null) stmt.close();} catch (Exception e) {}
+			try {if (conn != null) conn.close();} catch (Exception e) {}
+		}
+	}
+	
+	// PostUpdateServlet - update
+	public int update(PostVO postVO) throws Exception {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			conn = ds.getConnection();
+			stmt = conn.prepareStatement(
+					"UPDATE board SET psubject=?, ptext=?, ppwd=?, postername=?, "
+					+ "mod_date=now() WHERE pno=?");
+			stmt.setString(1, postVO.getPostSubject());
+			stmt.setString(2, postVO.getPostText());
+			stmt.setString(3, postVO.getPostPassword());
+			stmt.setString(4, postVO.getPosterName());
+			stmt.setInt(5, postVO.getPostNo());
+			return stmt.executeUpdate();
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			try {if (stmt != null) stmt.close();} catch(Exception e) {}
+			try {if (conn != null) conn.close();} catch(Exception e) {}
+		}
+	}
+	
+
 }

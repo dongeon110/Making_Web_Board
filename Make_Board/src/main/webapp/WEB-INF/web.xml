@@ -30,10 +30,28 @@
 		<servlet-name>PostAddServlet</servlet-name>
 		<servlet-class>boardproject.servlets.PostAddServlet</servlet-class>
 	</servlet>
-	
 	<servlet-mapping>
 		<servlet-name>PostAddServlet</servlet-name>
 		<url-pattern>/board/add</url-pattern>
 	</servlet-mapping>
 	
+	
+	<servlet>
+		<servlet-name>PostViewServlet</servlet-name>
+		<servlet-class>boardproject.servlets.PostViewServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PostViewServlet</servlet-name>
+		<url-pattern>/board/view</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+		<servlet-name>PostUpdateServlet</servlet-name>
+		<servlet-class>boardproject.servlets.PostUpdateServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PostUpdateServlet</servlet-name>
+		<url-pattern>/board/update</url-pattern>
+	</servlet-mapping>
 </web-app>

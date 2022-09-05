@@ -12,6 +12,7 @@ import java.io.IOException;
 import boardproject.vo.PostVO;
 import boardproject.dao.PostDao;
 
+
 public class PostViewServlet extends HttpServlet {
 	
 	@Override
@@ -20,10 +21,9 @@ public class PostViewServlet extends HttpServlet {
 			ServletContext sc = this.getServletContext();
 			PostDao postDao = (PostDao)sc.getAttribute("postDao");
 			
-			request.setAttribute("postVO", postDao.selectOne(Integer.parseInt(request.getParameter("pno"))));
+			request.setAttribute("postVO", postDao.selectOne(Integer.parseInt(request.getParameter("no"))));
 			
-			// Undefine Error?
-//			 response.setContextType("text/html; charset=UTF-8");
+			response.setContentType("text/html; charset=UTF-8");
 			
 			RequestDispatcher rd = request.getRequestDispatcher("/board/postView.jsp");
 			rd.include(request, response);
@@ -31,7 +31,7 @@ public class PostViewServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.setAttribute("error", e);
-			RequestDispatcher rd = request.getRequestDispatcher("Error.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/Error.jsp");
 			rd.forward(request, response);
 		}
 	}
