@@ -18,18 +18,22 @@ public class PostDao {
 	}
 	
 	// 게시글 목록
-	public List<PostVO> selectList() throws Exception {
+	public List<PostVO> selectList(int startRow, int pageSize) throws Exception {
 		Connection conn = null;
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
 		try {
 			conn = ds.getConnection();
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(
+			stmt = conn.prepareStatement(
 					"SELECT PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST"
 					+ " FROM BOARD"
-					+ " ORDER BY REPOST DESC, PNO ASC");
+					+ " ORDER BY REPOST DESC, PNO ASC"
+					+ " LIMIT ?, ?");
+			stmt.setInt(1, startRow-1); // 시작 row index 번호
+			stmt.setInt(2, pageSize); // 한번에 출력되는 수
+			
+			rs = stmt.executeQuery();
 			
 			ArrayList<PostVO> posts = new ArrayList<>();
 			
