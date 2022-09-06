@@ -10,9 +10,6 @@
 	<body>
 		
 		<h1>게시글 내용</h1>
-		
-		<form action='view' method='post'>
-		
 			번호 : ${postVO.postNo} <br>
 			제목 : ${postVO.postSubject} <br>
 			작성자 : ${postVO.posterName} <br>
@@ -22,12 +19,13 @@
 			작성일 : ${postVO.postCreatedDate} <br>
 			수정일 : ${postVO.postModifyDate} <br>
 			
+		<form action="repost" method="get">
+			<input type='hidden' name='no' value='${postVO.repost}'>
 			<input type='button' value='수정하기' onclick='location.href="update?no=${postVO.postNo}";'>
 			<input type='button' value='돌아가기' onclick='location.href="list";'>
-			
+			<input type='button' value='삭제하기' onclick='location.href="delete?no=${postVO.postNo}";'>
+			<input type='submit' value='답글달기'>
 		</form>
-		
-		
-		
+			
 	</body>
 </html>
