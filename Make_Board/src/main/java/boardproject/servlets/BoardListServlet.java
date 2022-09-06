@@ -21,7 +21,15 @@ public class BoardListServlet extends HttpServlet {
 		 try {
 			 ServletContext sc = this.getServletContext();
 			 PostDao postDao = (PostDao)sc.getAttribute("postDao");
-			 request.setAttribute("postVOs", postDao.selectList());
+			 int pageSize = 10;
+			 int currentPage;
+			 if(request.getParameter("pageNum") == null) {
+				 currentPage = 1;
+			 } else {
+				 currentPage = Integer.parseInt(request.getParameter("pageNum"));
+			 }
+			 int startRow = (currentPage-1) * pageSize + 1;
+			 request.setAttribute("postVOs", postDao.selectList(startRow, pageSize));
 			 
 			 response.setContentType("text/html; charset=UTF-8");
 			 
