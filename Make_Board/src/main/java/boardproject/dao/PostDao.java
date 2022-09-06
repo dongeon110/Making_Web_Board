@@ -17,7 +17,6 @@ public class PostDao {
 		this.ds = ds;
 	}
 	
-	
 	// 게시글 목록
 	public List<PostVO> selectList() throws Exception {
 		Connection conn = null;
@@ -30,7 +29,7 @@ public class PostDao {
 			rs = stmt.executeQuery(
 					"SELECT PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST"
 					+ " FROM BOARD"
-					+ " ORDER BY REPOST ASC, PNO ASC");
+					+ " ORDER BY REPOST DESC, PNO ASC");
 			
 			ArrayList<PostVO> posts = new ArrayList<>();
 			
@@ -165,6 +164,52 @@ public class PostDao {
 		} finally {
 			try {if (stmt != null) stmt.close();} catch(Exception e) {}
 			try {if (conn != null) conn.close();} catch(Exception e) {}
+		}
+	}
+	
+	
+	// PostDeleteServlet - delete
+	public int delete(Integer no) throws Exception {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			conn = ds.getConnection();
+			stmt = conn.prepareStatement(
+					"DELETE FROM board WHERE pno=?");
+			stmt.setInt(1, no);
+			return stmt.executeUpdate();
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			try {if (stmt != null) stmt.close();} catch(Exception e) {}
+			try {if (conn != null) conn.close();} catch(Exception e) {}
+		}
+		
+	}
+	
+	// RepostServlet
+	public int insertRepost(int postMainNo, PostVO repostVO) throws Exception {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			conn = ds.getConnection();
+			stmt = conn.prepareStatement(
+					"INSERT INTO board(psubject, ptext, ppwd, postername,"
+					+ " cre_date, mod_date, repost)"
+					+ " VALUES (?, ?, ?, ?, NOW(), NOW(), ?)");
+			stmt.setString(1, repostVO.getPostSubject());
+			stmt.setString(2, repostVO.getPostText());
+			stmt.setString(3, repostVO.getPostPassword());
+			stmt.setString(4, repostVO.getPosterName());
+			stmt.setInt(5, postMainNo);
+			return stmt.executeUpdate();
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			try {if (stmt != null) stmt.close();} catch(Exception e) {};
+			try {if (conn != null) conn.close();} catch(Exception e) {};
 		}
 	}
 	

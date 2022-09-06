@@ -54,4 +54,32 @@
 		<servlet-name>PostUpdateServlet</servlet-name>
 		<url-pattern>/board/update</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>PostUpdateServlet_2</servlet-name>
+		<servlet-class>boardproject.servlets.PostUpdateServlet_2</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PostUpdateServlet_2</servlet-name>
+		<url-pattern>/board/postupdate</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>PostDeleteServlet</servlet-name>
+		<servlet-class>boardproject.servlets.PostDeleteServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PostDeleteServlet</servlet-name>
+		<url-pattern>/board/delete</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>RepostServlet</servlet-name>
+		<servlet-class>boardproject.servlets.RepostServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RepostServlet</servlet-name>
+		<url-pattern>/board/repost</url-pattern>
+	</servlet-mapping>
+	
 </web-app>
