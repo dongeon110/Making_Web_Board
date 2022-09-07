@@ -27,6 +27,15 @@
 	</filter-mapping>
 	
 	<servlet>
+		<servlet-name>BoardListServlet</servlet-name>
+		<servlet-class>boardproject.servlets.BoardListServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>BoardListServlet</servlet-name>
+		<url-pattern>/board/list</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<servlet-name>PostAddServlet</servlet-name>
 		<servlet-class>boardproject.servlets.PostAddServlet</servlet-class>
 	</servlet>

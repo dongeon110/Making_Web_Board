@@ -13,7 +13,7 @@ import java.io.IOException;
 import boardproject.vo.PostVO;
 import boardproject.dao.PostDao;
 
-@WebServlet("/board/list")
+// @WebServlet("/board/list")
 public class BoardListServlet extends HttpServlet {
 	
 	@Override
