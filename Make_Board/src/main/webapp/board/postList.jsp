@@ -21,6 +21,18 @@
 		${postVO.postCreatedDate}<br>
 		</c:forEach>
 		
-	
+		
+		<c:if test='${startPage != 1}' var='pre'>
+			<a href='list?pageNum=${startPage-1}'>&lt;이전&gt;</a>
+		</c:if>
+		<c:forEach var='page' begin='${startPage}' end='${endPage}'>
+			<a href='list?pageNum=${page}'>&lt;${page}&gt;</a>
+		</c:forEach>
+		<c:if test='${endPage != cntPage}' var='next'>
+			<a href='list?pageNum=${endPage+1}'>&lt;다음&gt;</a>
+		</c:if>
+		
+		
+		
 	</body>
 </html>

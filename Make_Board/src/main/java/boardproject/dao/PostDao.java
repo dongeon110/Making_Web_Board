@@ -18,7 +18,7 @@ public class PostDao {
 	}
 	
 	// 게시글 목록
-	public List<PostVO> selectList(int startRow, int pageSize) throws Exception {
+	public List<PostVO> selectList(int pageSize, int startRow) throws Exception {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -28,10 +28,10 @@ public class PostDao {
 			stmt = conn.prepareStatement(
 					"SELECT PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST"
 					+ " FROM BOARD"
-					+ " ORDER BY REPOST DESC, PNO ASC"
-					+ " LIMIT ?, ?");
-			stmt.setInt(1, startRow-1); // 시작 row index 번호
-			stmt.setInt(2, pageSize); // 한번에 출력되는 수
+					+ " ORDER BY REPOST DESC, PNO DESC"
+					+ " LIMIT ? OFFSET ?");
+			stmt.setInt(1, pageSize); // 시작 row index 번호
+			stmt.setInt(2, startRow-1); // 한번에 출력되는 수
 			
 			rs = stmt.executeQuery();
 			
@@ -55,6 +55,35 @@ public class PostDao {
 			try {if (conn != null) conn.close();} catch(Exception e) {}
 		}
 	}
+	
+	// 총 게시글 수
+	public int countPost() throws Exception {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = ds.getConnection();
+			stmt = conn.prepareStatement(
+					"SELECT count(*) FROM board");
+			rs = stmt.executeQuery();
+			int cntPost = 0;
+			
+			while (rs.next()) {
+				cntPost = rs.getInt("count");
+			}
+			
+			return cntPost;
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			try {if (rs != null) rs.close();} catch (Exception e) {}
+			try {if (stmt != null) stmt.close();} catch (Exception e) {}
+			try {if (conn != null) conn.close();} catch (Exception e) {}
+		}
+	}
+	
+	
 	
 	
 	// PostAddServlet

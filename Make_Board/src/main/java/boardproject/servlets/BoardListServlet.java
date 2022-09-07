@@ -21,15 +21,33 @@ public class BoardListServlet extends HttpServlet {
 		 try {
 			 ServletContext sc = this.getServletContext();
 			 PostDao postDao = (PostDao)sc.getAttribute("postDao");
-			 int pageSize = 10;
+			 
+			 // 페이징 처리
+			 int cntPost = postDao.countPost();
 			 int currentPage;
 			 if(request.getParameter("pageNum") == null) {
 				 currentPage = 1;
 			 } else {
 				 currentPage = Integer.parseInt(request.getParameter("pageNum"));
 			 }
+			 int pageSize = 5;
+
+			 // 총 페이지 수
+			 int cntPage = cntPost / pageSize + (cntPost%pageSize==0? 0:1);
+			 
+			 // 한 화면에 보여줄 페이지 블록 수
+			 int pageBlock = 5;
+			 // 블록 시작과 끝
+			 int startPage = ((currentPage-1)/pageBlock)*pageBlock + 1;
+			 int endPage = startPage + pageBlock - 1;
+			 if (endPage>cntPage) {endPage = cntPage;}
+			 request.setAttribute("startPage", startPage);
+			 request.setAttribute("endPage", endPage);
+			 request.setAttribute("cntPage", cntPage);
+			 
+			 
 			 int startRow = (currentPage-1) * pageSize + 1;
-			 request.setAttribute("postVOs", postDao.selectList(startRow, pageSize));
+			 request.setAttribute("postVOs", postDao.selectList(pageSize, startRow));
 			 
 			 response.setContentType("text/html; charset=UTF-8");
 			 
