@@ -9,8 +9,8 @@
 	<body>
 		
 		<h2>비밀번호 확인</h2>
-		<form action='delete' method="post">
-			글 번호 : <input type="text" name="no" value='${thisNo}' readonly><br>
+		<form action='delete.do' method="post">
+			글 번호 : <input type="text" name="no" value='${no}' readonly><br>
 			비밀번호 : <input type="password" name="password"><br>
 			<input type="submit" value="확인">
 		

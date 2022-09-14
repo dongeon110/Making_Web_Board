@@ -9,7 +9,9 @@ import java.util.List;
 
 import javax.sql.DataSource;
 import boardproject.vo.PostVO;
+import boardproject.annotation.Component;
 
+@Component("postDao")
 public class PostDao {
 	DataSource ds;
 	

@@ -9,9 +9,9 @@
 	<body>
 		
 		<h2>비밀번호 확인</h2>
-		<form action='update?no=${thisNo}' method="post">
-			글 번호 : <input type="text" name="no" value='${thisNo}' readonly><br>
-			비밀번호 : <input type="password" name="password"><br>
+		<form action='update.do?no=${no}' method="post">
+			글 번호 : <input type="text" name="no" value='${no}' readonly><br>
+			비밀번호 : <input type="password" name="password" value='${password}'><br>
 			<input type="submit" value="확인">
 		
 		</form>

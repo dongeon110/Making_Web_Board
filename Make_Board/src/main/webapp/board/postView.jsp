@@ -1,6 +1,7 @@
 <%@ page import = "boardproject.vo.PostVO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -19,11 +20,11 @@
 			작성일 : ${postVO.postCreatedDate} <br>
 			수정일 : ${postVO.postModifyDate} <br>
 			
-		<form action="repost" method="get">
+		<form action="repost.do" method="get">
 			<input type='hidden' name='no' value='${postVO.repost}'>
-			<input type='button' value='수정하기' onclick='location.href="update?no=${postVO.postNo}";'>
-			<input type='button' value='돌아가기' onclick='location.href="list";'>
-			<input type='button' value='삭제하기' onclick='location.href="delete?no=${postVO.postNo}";'>
+			<input type='button' value='수정하기' onclick='location.href="update.do?no=${postVO.postNo}";'>
+			<input type='button' value='돌아가기' onclick='location.href="list.do";'>
+			<input type='button' value='삭제하기' onclick='location.href="delete.do?no=${postVO.postNo}";'>
 			<input type='submit' value='답글달기'>
 		</form>
 			

@@ -12,24 +12,37 @@
 	
 		
 		<h1>게시글 목록</h1>
-		<p><a href='add'>신규 글 작성</a></p>
+		<p><a href='add.do'>신규 글 작성</a></p>
 		
-		<c:forEach var="postVO" items="${postVOs}">
-		${postVO.postNo}
-		<a href='view?no=${postVO.postNo}'>${postVO.postSubject}</a>
-		${postVO.posterName}
-		${postVO.postCreatedDate}<br>
-		</c:forEach>
+		<table border="1">
+			<tr>
+				<th>번호</th>
+				<th>제목</th>
+				<th>작성자</th>
+				<th>작성일</th>
+			</tr>
+			
+			
+			<c:forEach var="postVO" items="${postVOs}">
+				<tr>
+					<td>${postVO.postNo}</td>
+					<td><a href='view.do?no=${postVO.postNo}'>${postVO.postSubject}</a></td>
+					<td>${postVO.posterName}</td>
+					<td>${postVO.postCreatedDate}</td>
+				</tr>
+			</c:forEach>
+		</table>
 		
+				
 		
 		<c:if test='${startPage != 1}' var='pre'>
-			<a href='list?pageNum=${startPage-1}'>&lt;이전&gt;</a>
+			<a href='list.do?pageNum=${startPage-1}'>&lt;이전&gt;</a>
 		</c:if>
 		<c:forEach var='page' begin='${startPage}' end='${endPage}'>
-			<a href='list?pageNum=${page}'>&lt;${page}&gt;</a>
+			<a href='list.do?pageNum=${page}'>&lt;${page}&gt;</a>
 		</c:forEach>
 		<c:if test='${endPage != cntPage}' var='next'>
-			<a href='list?pageNum=${endPage+1}'>&lt;다음&gt;</a>
+			<a href='list.do?pageNum=${endPage+1}'>&lt;다음&gt;</a>
 		</c:if>
 		
 		

@@ -10,7 +10,7 @@
 
 
 <h1>게시글 등록</h1>
-<form action='add' method='post'>
+<form action='add.do' method='post'>
 	제목: <input type='text' name='postsubject'><br>
 	내용: <input type='text' size='100' name='posttext'><br>
 	게시글 비밀번호: <input type='password' name='postpassword'><br>
