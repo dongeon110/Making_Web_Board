@@ -30,3 +30,6 @@ INSERT INTO BOARD (psubject, ppwd, ptext, postername, CRE_DATE, MOD_DATE, repost
 	('  [RE]제목테스트3', '1234', '내용테스트3', '작성자3', NOW(), NOW(), 1);
 INSERT INTO BOARD (psubject, ppwd, ptext, postername, CRE_DATE, MOD_DATE) VALUES
 	('디폴트 테스트', '1234', '내용테스트3', '작성자3', NOW(), NOW());
+
+-- ADD COLUMN (pviews 조회수)
+ALTER TABLE board ADD COLUMN pviews integer DEFAULT 0;
