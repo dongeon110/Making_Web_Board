@@ -10,37 +10,38 @@
 		<title>게시글 수정</title>
 	</head>
 	<body>
+		<jsp:include page="/Header.jsp"/>
 		<h2>게시글 수정</h2>
 
-			<form action="update.do" method="post">
-				<ul>
-					<li><label for="postNo">번호</label>
-					<input id="postNo"
-					type='text' name='postNo' size='10' value='${postVO.postNo}' readonly></li>
-					
-					<li><label for="postSubject">제목</label>
-					<input id="postSubject"
-					type='text' name='postSubject' size='50' value='${postVO.postSubject}'></li>
-					
-					<li><label for="postText">내용</label>
-					<textarea id="postText"
-					name='postText' rows='5' cols='40'>${postVO.postText}</textarea></li>
-					
-					<li><label for="posterName">작성자</label>
-					<input id="posterName"
-					type='text' name='posterName' value='${postVO.posterName}'></li>
-					
-					<li><label for="postPassword">비밀번호</label>
-					<input id="postPassword"
-					type='password' name='postPassword' value='${postVO.postPassword}'></li>
-
-				</ul>
-				<input type='hidden' name='repost' value='${postVO.repost}'>
-				<input type='hidden' name='no' value='${postVO.postNo}'>
-				<input type='submit' value='저장하기'>
-				<input type='reset' value='다시쓰기'>
+		<form action="update.do" method="post">
+			<ul>
+				<li><label for="postNo">번호</label>
+				<input id="postNo"
+				type='text' name='postNo' size='10' value='${postVO.postNo}' readonly></li>
 				
-			</form>
+				<li><label for="postSubject">제목</label>
+				<input id="postSubject"
+				type='text' name='postSubject' size='50' value='${postVO.postSubject}'></li>
+				
+				<li><label for="postText">내용</label>
+				<textarea id="postText"
+				name='postText' rows='5' cols='40'>${postVO.postText}</textarea></li>
+				
+				<li><label for="posterName">작성자</label>
+				<input id="posterName"
+				type='text' name='posterName' value='${postVO.posterName}'></li>
+				
+				<li><label for="postPassword">비밀번호</label>
+				<input id="postPassword"
+				type='password' name='postPassword' value='${postVO.postPassword}'></li>
+
+			</ul>
+			<input type='hidden' name='repost' value='${postVO.repost}'>
+			<input type='hidden' name='no' value='${postVO.postNo}'>
+			<input type='submit' value='저장하기'>
+			<input type='reset' value='다시쓰기'>
 			
+		</form>
+		<jsp:include page="/Tail.jsp"/>
 	</body>
 </html>

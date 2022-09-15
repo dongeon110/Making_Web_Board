@@ -1,9 +1,10 @@
-package boardproject.controls;
+package boardproject.controls.post;
 
 import java.util.Map;
 
 import boardproject.annotation.Component;
 import boardproject.bind.DataBinding;
+import boardproject.controls.Controller;
 import boardproject.dao.PostDao;
 import boardproject.vo.PostVO;
 
@@ -30,7 +31,7 @@ public class RepostController implements Controller, DataBinding {
 			return "/board/postRepost.jsp";
 		} else {
 			postDao.insertRepost((int)model.get("no"), postVO
-					.setPostSubject("[RE:]" + postVO.getPostSubject()));
+					.setPostSubject(postVO.getPostSubject()));
 			return "redirect:list.do";
 		}
 	}

@@ -1,10 +1,11 @@
-package boardproject.controls;
+package boardproject.controls.post;
 
 import java.util.Map;
 
 import boardproject.vo.PostVO;
 import boardproject.dao.PostDao;
 import boardproject.bind.DataBinding;
+import boardproject.controls.Controller;
 import boardproject.annotation.Component;
 
 @Component("/board/delete.do")

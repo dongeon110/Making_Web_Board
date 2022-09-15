@@ -1,9 +1,10 @@
-package boardproject.controls;
+package boardproject.controls.post;
 
 import java.util.Map;
 
 import boardproject.annotation.Component;
 import boardproject.bind.DataBinding;
+import boardproject.controls.Controller;
 import boardproject.dao.PostDao;
 import boardproject.vo.PostVO;
 
@@ -28,6 +29,7 @@ public class PostUpdateController implements Controller, DataBinding {
 	public String execute(Map<String, Object> model) throws Exception {
 		PostVO postVO = (PostVO) model.get("postVO");
 		
+		// 비밀번호 확인 페이지
 		if (model.get("password") == null // GET
 				&& postVO.getPostPassword() == null) {
 			return "/auth/CheckPostPw.jsp";
@@ -36,6 +38,7 @@ public class PostUpdateController implements Controller, DataBinding {
 					.setPostNo((Integer)model.get("no"))
 					.setPostPassword((String)model.get("password"));
 			
+			// 비밀번호 확인
 			if (postDao.checkPw(checkPostVO)) {
 				postVO = postDao.selectOne((int)model.get("no"));
 				model.put("postVO", postVO);
@@ -44,6 +47,11 @@ public class PostUpdateController implements Controller, DataBinding {
 				return "/auth/CheckPwFail.jsp";
 			}
 		} else {
+			if (postVO.getPostPassword() == "" || postVO.getPostSubject() == ""
+					|| postVO.getPosterName() == "" || postVO.getPostText() == "") {
+				return "/auth/CheckNull.jsp";
+			}
+			
 			postDao.update(postVO);
 			return "redirect:list.do";
 		}

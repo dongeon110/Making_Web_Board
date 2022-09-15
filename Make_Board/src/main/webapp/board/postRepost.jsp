@@ -8,6 +8,7 @@
 		<title>답글 등록</title>
 	</head>
 	<body>
+		<jsp:include page="/Header.jsp"/>
 		<h1>답글 등록</h1>
 		
 		<form action='repost.do' method='post'>
@@ -33,6 +34,6 @@
 			<input type='reset' value='취소'>
 		</form>
 		
-		
+		<jsp:include page="/Tail.jsp"/>
 	</body>
 </html>

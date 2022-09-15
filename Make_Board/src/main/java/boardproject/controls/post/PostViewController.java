@@ -1,9 +1,10 @@
-package boardproject.controls;
+package boardproject.controls.post;
 
 import java.util.Map;
 
 import boardproject.dao.PostDao;
 import boardproject.bind.DataBinding;
+import boardproject.controls.Controller;
 import boardproject.vo.PostVO;
 import boardproject.annotation.Component;
 
@@ -24,6 +25,9 @@ public class PostViewController implements Controller, DataBinding {
 	
 	@Override
 	public String execute(Map<String, Object> model) throws Exception {
+		
+		postDao.increaseViews((int)model.get("no")); // 조회수 1 증가
+		
 		model.put("postVO", postDao.selectOne((int)model.get("no")));
 		return "/board/postView.jsp";
 	}

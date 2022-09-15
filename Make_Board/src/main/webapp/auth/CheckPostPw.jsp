@@ -7,7 +7,7 @@
 		<title>비밀번호 확인</title>
 	</head>
 	<body>
-		
+		<jsp:include page="/Header.jsp"/>
 		<h2>비밀번호 확인</h2>
 		<form action='update.do?no=${no}' method="post">
 			글 번호 : <input type="text" name="no" value='${no}' readonly><br>
@@ -15,6 +15,6 @@
 			<input type="submit" value="확인">
 		
 		</form>
-		
+		<jsp:include page="/Tail.jsp"/>
 	</body>
 </html>

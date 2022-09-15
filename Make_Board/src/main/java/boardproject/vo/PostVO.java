@@ -3,6 +3,7 @@ package boardproject.vo;
 import java.util.Date;
 
 public class PostVO {
+	protected	int		rowNum;
 	protected	int		postNo; // PK
 	protected	String	postSubject; // 제목
 	protected	String	postText; // 내용
@@ -11,8 +12,17 @@ public class PostVO {
 	protected	Date	postCreatedDate; // 작성날짜
 	protected	Date	postModifyDate; // 수정날짜
 	protected	int		repost; // 답글 그룹 번호
+	protected	int		postViews; // 조회수
 	
 	// getter, setter
+	public int getRowNum() {
+		return rowNum;
+	}
+	public PostVO setRowNum(int rowNum) {
+		this.rowNum = rowNum;
+		return this;
+	}
+	
 	public int getPostNo() {
 		return postNo;
 	}
@@ -74,6 +84,14 @@ public class PostVO {
 	}
 	public PostVO setRepost(int repost) {
 		this.repost = repost;
+		return this;
+	}
+	
+	public int getPostViews() {
+		return postViews;
+	}
+	public PostVO setPostViews(int postViews) {
+		this.postViews = postViews;
 		return this;
 	}
 }

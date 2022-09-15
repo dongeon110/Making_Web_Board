@@ -20,7 +20,7 @@ public class PostDao {
 	}
 	
 	// 게시글 목록
-	public List<PostVO> selectList(int pageSize, int startRow) throws Exception {
+	public List<PostVO> selectList() throws Exception {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -28,12 +28,10 @@ public class PostDao {
 		try {
 			conn = ds.getConnection();
 			stmt = conn.prepareStatement(
-					"SELECT PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST"
-					+ " FROM BOARD"
-					+ " ORDER BY REPOST DESC, PNO DESC"
-					+ " LIMIT ? OFFSET ?");
-			stmt.setInt(1, pageSize); // 시작 row index 번호
-			stmt.setInt(2, startRow-1); // 한번에 출력되는 수
+					"SELECT (ROW_NUMBER() OVER()) AS ROWNUM, PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST, PVIEWS"
+					+ " FROM ("
+					+ "SELECT PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST, PVIEWS"
+					+ " FROM BOARD ORDER BY REPOST DESC, PNO DESC) ROWBOARD");
 			
 			rs = stmt.executeQuery();
 			
@@ -41,11 +39,13 @@ public class PostDao {
 			
 			while (rs.next()) {
 				posts.add(new PostVO()
+						.setRowNum(rs.getInt("ROWNUM"))
 						.setPostNo(rs.getInt("PNO"))
 						.setPostSubject(rs.getString("PSUBJECT"))
 						.setPosterName(rs.getString("POSTERNAME"))
 						.setPostCreatedDate(rs.getDate("CRE_DATE"))
-						.setRepost(rs.getInt("REPOST")) );
+						.setRepost(rs.getInt("REPOST"))
+						.setPostViews(rs.getInt("PVIEWS")));
 			}
 			
 			return posts;
@@ -58,34 +58,68 @@ public class PostDao {
 		}
 	}
 	
-	// 총 게시글 수
-	public int countPost() throws Exception {
+	
+	public List<PostVO> selectList(String column, String search) throws Exception {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
 		try {
 			conn = ds.getConnection();
-			stmt = conn.prepareStatement(
-					"SELECT count(*) FROM board");
+			
+			
+			
+			if (column.equals("ptext")) {
+				stmt = conn.prepareStatement(
+						"SELECT (ROW_NUMBER() OVER()) AS ROWNUM, PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST, PVIEWS"
+						+ " FROM ("
+						+ "SELECT PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST, PVIEWS"
+						+ " FROM BOARD"
+						+ " WHERE PTEXT LIKE ?"
+						+ " ORDER BY REPOST DESC, PNO DESC) ROWBOARD");
+			} else if (column.equals("postername")) {
+				stmt = conn.prepareStatement(
+						"SELECT (ROW_NUMBER() OVER()) AS ROWNUM, PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST, PVIEWS"
+						+ " FROM ("
+						+ "SELECT PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST, PVIEWS"
+						+ " FROM BOARD"
+						+ " WHERE POSTERNAME LIKE ?"
+						+ " ORDER BY REPOST DESC, PNO DESC) ROWBOARD");
+			} else {
+				stmt = conn.prepareStatement(
+						"SELECT (ROW_NUMBER() OVER()) AS ROWNUM, PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST, PVIEWS"
+						+ " FROM ("
+						+ "SELECT PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST, PVIEWS"
+						+ " FROM BOARD"
+						+ " WHERE PSUBJECT LIKE ?"
+						+ " ORDER BY REPOST DESC, PNO DESC) ROWBOARD");
+			}
+			stmt.setString(1, "%"+search+"%");
+			
 			rs = stmt.executeQuery();
-			int cntPost = 0;
+			
+			ArrayList<PostVO> posts = new ArrayList<>();
 			
 			while (rs.next()) {
-				cntPost = rs.getInt("count");
+				posts.add(new PostVO()
+						.setRowNum(rs.getInt("ROWNUM"))
+						.setPostNo(rs.getInt("PNO"))
+						.setPostSubject(rs.getString("PSUBJECT"))
+						.setPosterName(rs.getString("POSTERNAME"))
+						.setPostCreatedDate(rs.getDate("CRE_DATE"))
+						.setRepost(rs.getInt("REPOST"))
+						.setPostViews(rs.getInt("PVIEWS")));
 			}
 			
-			return cntPost;
+			return posts;
 		} catch (Exception e) {
 			throw e;
 		} finally {
 			try {if (rs != null) rs.close();} catch (Exception e) {}
 			try {if (stmt != null) stmt.close();} catch (Exception e) {}
-			try {if (conn != null) conn.close();} catch (Exception e) {}
+			try {if (conn != null) conn.close();} catch(Exception e) {}
 		}
 	}
-	
-	
 	
 	
 	// PostAddServlet
@@ -122,7 +156,7 @@ public class PostDao {
 			conn = ds.getConnection();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(
-					"SELECT pno, psubject, ptext, postername, cre_date, mod_date, repost"
+					"SELECT pno, psubject, ptext, postername, cre_date, mod_date, repost, pviews"
 					+ " FROM board"
 					+ " WHERE pno = " + postNo);
 			rs.next();
@@ -134,7 +168,8 @@ public class PostDao {
 					.setPosterName(rs.getString("postername"))
 					.setPostCreatedDate(rs.getDate("cre_date"))
 					.setPostModifyDate(rs.getDate("mod_date"))
-					.setRepost(rs.getInt("repost"));
+					.setRepost(rs.getInt("repost"))
+					.setPostViews(rs.getInt("pviews"));
 			return postVO;
 			
 		} catch (Exception e) {
@@ -248,5 +283,24 @@ public class PostDao {
 		}
 	}
 	
-
+	// Views
+	public int increaseViews(int no) throws Exception {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			conn = ds.getConnection();
+			stmt = conn.prepareStatement(
+					"UPDATE board SET pviews = pviews + 1"
+					+ " WHERE pno = ?");
+			stmt.setInt(1, no);
+			return stmt.executeUpdate();
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			try {if (stmt != null) stmt.close();} catch(Exception e) {};
+			try {if (conn != null) conn.close();} catch(Exception e) {};
+		}
+	}
 }
+	

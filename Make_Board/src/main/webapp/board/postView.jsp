@@ -2,6 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<% pageContext.setAttribute("replaceChar", "\n"); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -9,16 +11,32 @@
 		<title>게시글 내용</title>
 	</head>
 	<body>
+		<jsp:include page="/Header.jsp"/>
 		
 		<h1>게시글 내용</h1>
-			번호 : ${postVO.postNo} <br>
-			제목 : ${postVO.postSubject} <br>
-			작성자 : ${postVO.posterName} <br>
-			<br>
-			내용 : ${postVO.postText} <br>
-			<br>
-			작성일 : ${postVO.postCreatedDate} <br>
-			수정일 : ${postVO.postModifyDate} <br>
+			<ul>
+				<li><label>번호 : </label>
+				${postVO.postNo}</li>
+				
+				<li><label>제목 : </label>
+				${postVO.postSubject}</li>
+				
+				<li><label>조회수 : </label>
+				${postVO.postViews}</li>
+				
+				<li><label>작성자 : </label>
+				${postVO.posterName}<br/><br/></li>
+				
+				<li><label>&nbsp;내용<br/></label>
+				${fn:replace(postVO.postText, replaceChar, "<br/>")}<br/><br/></li>
+				
+				<li><label>작성일 : </label>
+				${postVO.postCreatedDate}</li>
+				
+				<li><label>수정일 : </label>
+				${postVO.postModifyDate}</li>
+				
+			</ul>
 			
 		<form action="repost.do" method="get">
 			<input type='hidden' name='no' value='${postVO.repost}'>
@@ -27,6 +45,7 @@
 			<input type='button' value='삭제하기' onclick='location.href="delete.do?no=${postVO.postNo}";'>
 			<input type='submit' value='답글달기'>
 		</form>
-			
+		
+		<jsp:include page="/Tail.jsp"/>
 	</body>
 </html>
