@@ -16,10 +16,10 @@
 		
 		<%
 		// 페이지 구성
-		int pageNum = (int)request.getAttribute("pageNum");
-		int pageSize = (int)request.getAttribute("pageSize");
-		int cntPost = (int)request.getAttribute("cntPost");
-		int cntPage = cntPost / pageSize + (cntPost%pageSize==0? 0:1);
+		int pageNum = (int)request.getAttribute("pageNum"); // 현재 페이지
+		int pageSize = (int)request.getAttribute("pageSize"); // 페이지당 게시물 수
+		int cntPost = (int)request.getAttribute("cntPost"); // 전체 게시물 수
+		int cntPage = cntPost / pageSize + (cntPost%pageSize==0? 0:1); // 전체 페이지 수
 		
 		pageContext.setAttribute("cntPage", cntPage);
 		
@@ -43,6 +43,7 @@
 			<tr>
 				<th>번호</th>
 				<th>제목</th>
+				<th>조회수</th>
 				<th>작성자</th>
 				<th>작성일</th>
 			</tr>
@@ -56,12 +57,13 @@
 						┌[RE:]
 						</c:if>
 						<a href='view.do?no=${postVO.postNo}'>${postVO.postSubject}</a></td>
+					<td>${postVO.postViews}</td>
 					<td>${postVO.posterName}</td>
 					<td>${postVO.postCreatedDate}</td>
 				</tr>
 			</c:forEach>
 		</table>
-		<form action="list.do" method="POST">
+		<form action="list.do?pageNum=${pageNum}" method="POST">
 			<button type='submit'>TEST</button>
 		</form>
 		
