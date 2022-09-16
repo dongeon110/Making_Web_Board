@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boardproject.dao.PostDao">
+	<resultMap type="postVO" id="postVOResultMap">
+		<id column="PNO" property="postNo"/>
+		<result column="PSUBJECT" property="postSubject"/>
+		<result column="PTEXT" property="postText"/>
+		<result column="PPWD" property="postPassword"/>
+		<result column="POSTERNAME" property="posterName"/>
+		<result column="CRE_DATE" property="postCreatedDate" javaType="java.sql.Date"/>
+		<result column="MOD_DATE" property="postModifyDate" javaType="java.sql.Date"/>
+		<result column="REPOST" property="repost"/>
+		<result column="PVIEWS" property="postViews"/>
+		<result column="ROWNUM" property="rowNum"/>
+	</resultMap>
+	
+	<select id="selectList" resultMap="postVOResultMap">
+		SELECT (ROW_NUMBER() OVER()) AS ROWNUM, PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST, PVIEWS
+		FROM (
+			SELECT PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST, PVIEWS)
+			FROM BOARD ORDER BY REPOST DESC, PNO DESC) ROWBOARD
+	</select>
+	
+	<insert id="insert" parameterType="postVO">
+		INSERT INTO board(PSUBJECT, PTEXT, PPWD, POSTERNAME, CRE_DATE, MOD_DATE)
+		VALUES (#{postSubject}, #{postText}, #{postPassword}, #{posterName}, NOW(), NOW())
+	</insert>
+	
+	<select id="selectOne" parameterType="int" resultMap="postVOResultMap">
+		SELECT PNO, PSUBJECT, PTEXT, POSTERNAME, CRE_DATE, MOD_DATE, REPOST, PVIEWS
+		FROM BOARD
+		WHERE PNO=#{postNo}
+	</select>
+	
+	<select id="checkPw" parameterType="postVO" resultMap="int">
+		SELECT count(*) FROM BOARD
+		WHERE PNO=#{postNo} and PPWD=#{postPassword}
+	</select>
+	
+	<update id="update" parameterType="postVO">
+		UPDATE BOARD SET
+			PSUBJECT = #{postSubject},
+			PTEXT = #{postText},
+			PPWD = #{postPassword},
+			POSTERNAME = #{posterName},
+			MOD_DATE = now()
+		WHERE PNO = #{postNo}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM BOARD WHERE PNO=#{postNo}
+	</delete>
+	
+	<insert id="insertRepost" parameterType="postVO">
+		INSERT INTO BOARD(PSUBJECT, PTEXT, PPWD, POSTERNAME, CRE_DATE, MOD_DATE, REPOST)
+		VALUES 
+			(#{postSubject}, #{postText}, #{postPassword}, #{posterName}, 
+			NOW(), NOW(), #{repost})
+	</insert>
+	
+	<update id="increaseViews" parameterType="int">
+		UPDATE BOARD SET PVIEWS = PVIEWS + 1 WHERE PNO = #{postNo}
+	</update>
+</mapper>

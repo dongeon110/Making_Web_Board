@@ -23,19 +23,18 @@ public class ApplicationContext {
 		return objTable.get(key);
 	}
 	
-	// property파일 로딩
-	public ApplicationContext(String propertiesPath) throws Exception {
-		Properties props = new Properties();
-		props.load(new FileReader(propertiesPath));
-		
-		prepareObjects(props); // 로딩 후 그에 따라 객체를 준비
-		prepareAnnotationObjects();
-		injectDependency();
+	// 외부에서 등록할 수 있게
+	public void addBean(String name, Object obj) {
+		objTable.put(name, obj);
 	}
 	
 	
 	// 객체 준비
-	private void prepareObjects(Properties props) throws Exception {
+	public void prepareObjectsByProperties(String propertiesPath) throws Exception {
+		
+		Properties props = new Properties();
+		props.load(new FileReader(propertiesPath));
+		
 		// JNDI 객체를 찾을 때 사용할 InitialContext
 		Context context = new InitialContext();
 		String key = null;
@@ -56,8 +55,8 @@ public class ApplicationContext {
 	}
 	
 	// annotation으로 부터 값을 추출하여 객체을 자동 생성
-	private void prepareAnnotationObjects() throws Exception {
-		Reflections reflector = new Reflections("");
+	public void prepareObjectByAnnotation(String basePackage) throws Exception {
+		Reflections reflector = new Reflections(basePackage);
 		
 		Set<Class<?>> list = reflector.getTypesAnnotatedWith(Component.class);
 		String key = null;
@@ -73,7 +72,7 @@ public class ApplicationContext {
 	// 톰캣 서버로부터 객체를 가져오거나 (ex:DataSource)
 	// 직접 생성하면 (ex:PostDao)
 	// 각 객체가 필요로하는 의존 객체 할당
-	private void injectDependency() throws Exception {
+	public void injectDependency() throws Exception {
 		for (String key:objTable.keySet()) {
 			// jndi.로 시작하는 건 톰캣서버에서 제공하는 객체이기 때문에 의존성 주입하면 안됨
 			if (!key.startsWith("jndi.")) { 

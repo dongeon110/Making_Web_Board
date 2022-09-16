@@ -71,7 +71,6 @@ public class BoardListController implements Controller, DataBinding {
 			
 		}
 		
-		
 		return "/board/postList.jsp";
 	}
 }

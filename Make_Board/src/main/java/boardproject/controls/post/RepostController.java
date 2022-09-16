@@ -30,8 +30,9 @@ public class RepostController implements Controller, DataBinding {
 		if (postVO.getPostSubject() == null) {
 			return "/board/postRepost.jsp";
 		} else {
-			postDao.insertRepost((int)model.get("no"), postVO
-					.setPostSubject(postVO.getPostSubject()));
+			postDao.insertRepost(postVO
+					.setPostSubject(postVO.getPostSubject())
+					.setRepost((int)model.get("no")));
 			return "redirect:list.do";
 		}
 	}

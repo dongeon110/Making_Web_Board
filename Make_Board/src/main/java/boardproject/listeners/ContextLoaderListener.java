@@ -1,6 +1,11 @@
 package boardproject.listeners;
 
 import javax.sql.DataSource;
+import java.io.InputStream;
+
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import javax.naming.InitialContext;
 import javax.servlet.ServletContext;
@@ -24,11 +29,22 @@ public class ContextLoaderListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
 		try {
-			ServletContext sc = event.getServletContext();
+			applicationContext = new ApplicationContext();
 			
+			String resource = "boardproject/dao/mybatis-config.xml";
+			InputStream inputStream = Resources.getResourceAsStream(resource);
+			SqlSessionFactory sqlSessionFactory =
+					new SqlSessionFactoryBuilder().build(inputStream);
+			
+			applicationContext.addBean("sqlSessionFactory", sqlSessionFactory);
+			
+			ServletContext sc = event.getServletContext();
 			String propertiesPath = sc.getRealPath(
 					sc.getInitParameter("contextConfigLocation"));
-			applicationContext = new ApplicationContext(propertiesPath);
+			applicationContext.prepareObjectsByProperties(propertiesPath);
+			applicationContext.prepareObjectByAnnotation("");
+			applicationContext.injectDependency();
+			
 			
 		} catch(Throwable e) {
 			e.printStackTrace();
