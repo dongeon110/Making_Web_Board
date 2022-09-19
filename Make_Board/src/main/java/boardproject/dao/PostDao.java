@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSession;
@@ -29,6 +30,19 @@ public class PostDao {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		try {
 			return sqlSession.selectList("boardproject.dao.PostDao.selectList");
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	// 게시글 목록
+	public List<PostVO> searchList(String column, String search) throws Exception {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		HashMap<String, String> searchList = new HashMap<>();
+		searchList.put("column", column);
+		searchList.put("search", "%"+search+"%");
+		try {
+			return sqlSession.selectList("boardproject.dao.PostDao.searchList", searchList);
 		} finally {
 			sqlSession.close();
 		}

@@ -6,6 +6,11 @@
 <configuration>
 	<properties resource="boardproject/dao/db.properties"/>
 	
+	<!-- mybatis의 로그 출력기 지정 name은 속성 value는 로그 출력기 이름 -->
+	<settings>
+		<setting name="logImpl" value="LOG4J"/>
+	</settings>
+	
 	<typeAliases>
 		<typeAlias type="boardproject.vo.PostVO" alias="postVO"/>
 	</typeAliases>
@@ -19,6 +24,11 @@
 				<property name="username" value="${username}"/>
 				<property name="password" value="${password}"/>
 			</dataSource>
+			<!-- 서버에서 DB 설정하고 사용하기 위한 부분
+			<dataSource type="JNDI">
+				<property name="data_source" value="java:comp/env/jdbc/dongeon_board"/>
+			</dataSource>
+			 -->
 		</environment>
 	</environments>
 	

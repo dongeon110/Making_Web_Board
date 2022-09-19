@@ -19,8 +19,23 @@
 	<select id="selectList" resultMap="postVOResultMap">
 		SELECT (ROW_NUMBER() OVER()) AS ROWNUM, PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST, PVIEWS
 		FROM (
-			SELECT PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST, PVIEWS)
-			FROM BOARD ORDER BY REPOST DESC, PNO DESC) ROWBOARD
+			SELECT PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST, PVIEWS
+			FROM BOARD ORDER BY REPOST DESC, PNO DESC) AS ROWBOARD
+	</select>
+	
+	
+	<select id="searchList" parameterType="map" resultMap="postVOResultMap">
+		SELECT (ROW_NUMBER() OVER()) AS ROWNUM, PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST, PVIEWS
+		FROM (
+			SELECT PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST, PVIEWS
+			FROM BOARD
+			WHERE
+			<choose>
+				<when test="column == 'ptext'">PTEXT</when>
+				<when test="column == 'postername'">POSTERNAME</when>
+				<otherwise>PSUBJECT</otherwise>
+			</choose>
+			LIKE #{search} ORDER BY REPOST DESC, PNO DESC) AS ROWBOARD
 	</select>
 	
 	<insert id="insert" parameterType="postVO">
@@ -34,7 +49,7 @@
 		WHERE PNO=#{postNo}
 	</select>
 	
-	<select id="checkPw" parameterType="postVO" resultMap="int">
+	<select id="checkPw" parameterType="postVO" resultType="int">
 		SELECT count(*) FROM BOARD
 		WHERE PNO=#{postNo} and PPWD=#{postPassword}
 	</select>
