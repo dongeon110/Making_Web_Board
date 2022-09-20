@@ -23,7 +23,7 @@ public class PostDao {
 		this.sqlSessionFactory = sqlSessionFactory;
 	}
 	
-	
+	 
 	
 	// 게시글 목록
 	public List<PostVO> selectList() throws Exception {
