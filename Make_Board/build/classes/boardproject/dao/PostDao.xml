@@ -14,20 +14,21 @@
 		<result column="REPOST" property="repost"/>
 		<result column="PVIEWS" property="postViews"/>
 		<result column="ROWNUM" property="rowNum"/>
+		<result column="BYUSER" property="postUserNo"/>
 	</resultMap>
 	
 	<select id="selectList" resultMap="postVOResultMap">
-		SELECT (ROW_NUMBER() OVER()) AS ROWNUM, PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST, PVIEWS
+		SELECT (ROW_NUMBER() OVER()) AS ROWNUM, PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST, PVIEWS, BYUSER
 		FROM (
-			SELECT PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST, PVIEWS
+			SELECT PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST, PVIEWS, BYUSER
 			FROM BOARD ORDER BY REPOST DESC, PNO DESC) AS ROWBOARD
 	</select>
 	
 	
 	<select id="searchList" parameterType="map" resultMap="postVOResultMap">
-		SELECT (ROW_NUMBER() OVER()) AS ROWNUM, PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST, PVIEWS
+		SELECT (ROW_NUMBER() OVER()) AS ROWNUM, PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST, PVIEWS, BYUSER
 		FROM (
-			SELECT PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST, PVIEWS
+			SELECT PNO, PSUBJECT, POSTERNAME, CRE_DATE, REPOST, PVIEWS, BYUSER
 			FROM BOARD
 			WHERE
 			<choose>
@@ -43,8 +44,13 @@
 		VALUES (#{postSubject}, #{postText}, #{postPassword}, #{posterName}, NOW(), NOW())
 	</insert>
 	
+	<insert id="insertbyUser" parameterType="postVO">
+		INSERT INTO board(PSUBJECT, PTEXT, CRE_DATE, MOD_DATE, BYUSER)
+		VALUES (#{postSubject}, #{postText}, NOW(), NOW(), #{postUserNo})
+	</insert>
+	
 	<select id="selectOne" parameterType="int" resultMap="postVOResultMap">
-		SELECT PNO, PSUBJECT, PTEXT, POSTERNAME, CRE_DATE, MOD_DATE, REPOST, PVIEWS
+		SELECT PNO, PSUBJECT, PTEXT, POSTERNAME, CRE_DATE, MOD_DATE, REPOST, PVIEWS, BYUSER
 		FROM BOARD
 		WHERE PNO=#{postNo}
 	</select>
@@ -73,6 +79,13 @@
 		VALUES 
 			(#{postSubject}, #{postText}, #{postPassword}, #{posterName}, 
 			NOW(), NOW(), #{repost})
+	</insert>
+	
+	<insert id="repostbyUser" parameterType="postVO">
+		INSERT INTO BOARD(PSUBJECT, PTEXT, CRE_DATE, MOD_DATE, REPOST, BYUSER)
+		VALUES 
+			(#{postSubject}, #{postText}, 
+			NOW(), NOW(), #{repost}, #{postUserNo})
 	</insert>
 	
 	<update id="increaseViews" parameterType="int">

@@ -6,6 +6,7 @@
 	id="WebApp_ID" version="3.0">
 	<display-name>Make_Board</display-name>
 	
+	
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/application-context.properties</param-value>
@@ -31,7 +32,7 @@
 		<filter-name>CharacterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+	<!-- 
 	<servlet>
 		<servlet-name>BoardListServlet</servlet-name>
 		<servlet-class>boardproject.servlets.BoardListServlet</servlet-class>
@@ -96,5 +97,5 @@
 		<servlet-name>RepostServlet</servlet-name>
 		<url-pattern>/board/repost</url-pattern>
 	</servlet-mapping>
-	
+	 -->
 </web-app>

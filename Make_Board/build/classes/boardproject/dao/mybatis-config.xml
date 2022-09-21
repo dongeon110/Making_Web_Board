@@ -13,6 +13,7 @@
 	
 	<typeAliases>
 		<typeAlias type="boardproject.vo.PostVO" alias="postVO"/>
+		<typeAlias type="boardproject.vo.User" alias="user"/>
 	</typeAliases>
 	
 	<environments default="development">
@@ -34,5 +35,6 @@
 	
 	<mappers>
 		<mapper resource="boardproject/dao/PostDao.xml"/>
+		<mapper resource="boardproject/dao/UserDao.xml"/>
 	</mappers>
 </configuration>

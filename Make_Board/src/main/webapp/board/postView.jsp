@@ -1,4 +1,4 @@
-<%@ page import = "boardproject.vo.PostVO" %>
+<%@ page import = "java.util.HashMap" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -25,7 +25,13 @@
 				${postVO.postViews}</li>
 				
 				<li><label>작성자 : </label>
-				${postVO.posterName}<br/><br/></li>
+					<c:if test="${postVO.postUserNo != null and postVO.postUserNo != ''}">
+						<c:if test="${postVO.postPassword == '1'}">
+							<span style="color:red">[관리자]</span></c:if>
+						<c:if test="${postVO.postPassword == '2'}">
+							<span style="color:blue">[사용자]</span></c:if>
+					</c:if>
+					${postVO.posterName}<br/><br/></li>
 				
 				<li><label>&nbsp;내용<br/></label>
 				${fn:replace(postVO.postText, replaceChar, "<br/>")}<br/><br/></li>
@@ -41,7 +47,7 @@
 		<form action="repost.do" method="get">
 			<input type='hidden' name='no' value='${postVO.repost}'>
 			<input type='button' value='수정하기' onclick='location.href="update.do?no=${postVO.postNo}";'>
-			<input type='button' value='돌아가기' onclick='history.back();'>
+			<input type='button' value='돌아가기' onclick='history.back()'>
 			<input type='button' value='삭제하기' onclick='location.href="delete.do?no=${postVO.postNo}";'>
 			<input type='submit' value='답글달기'>
 		</form>
