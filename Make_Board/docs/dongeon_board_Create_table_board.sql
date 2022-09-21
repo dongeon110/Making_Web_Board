@@ -33,3 +33,12 @@ INSERT INTO BOARD (psubject, ppwd, ptext, postername, CRE_DATE, MOD_DATE) VALUES
 
 -- ADD COLUMN (pviews 조회수)
 ALTER TABLE board ADD COLUMN pviews integer DEFAULT 0;
+COMMENT ON COLUMN board.pviews IS '게시글 조회수';
+
+-- ADD COLUMN (작성자 user 여부) > users.userno 에 foreign key 추가
+ALTER TABLE board ADD COLUMN byuser INTEGER REFERENCES users (userno);
+COMMENT ON COLUMN board.byuser IS '작성user 고유no값';
+
+-- 비밀번호 및 작성자 DROP NOT NULL (작성user 있으면 필요 없기 때문)
+ALTER TABLE board ALTER COLUMN ppwd DROP NOT NULL;
+ALTER TABLE board ALTER COLUMN postername DROP NOT NULL;
