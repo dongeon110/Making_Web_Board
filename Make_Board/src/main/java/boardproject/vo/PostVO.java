@@ -13,6 +13,7 @@ public class PostVO {
 	protected	Date	postModifyDate; // 수정날짜
 	protected	int		repost; // 답글 그룹 번호
 	protected	int		postViews; // 조회수
+	protected	int		postUserNo; // FK
 	
 	// getter, setter
 	public int getRowNum() {
@@ -94,4 +95,13 @@ public class PostVO {
 		this.postViews = postViews;
 		return this;
 	}
+	
+	public int getPostUserNo() {
+		return postUserNo;
+	}
+	public PostVO setPostUserNo(int postUserNo) {
+		this.postUserNo = postUserNo;
+		return this;
+	}
+	
 }

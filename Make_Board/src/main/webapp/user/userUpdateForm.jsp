@@ -12,12 +12,15 @@
 		<h1>수정</h1>
 		
 		<form action='update.do' method='post'>
-			<input type='text' name='no' value='${no}' readonly><br>
-			<input type='text' name='userNo' value='${user.userNo}' readonly><br>
+			<input type='hidden' name='no' value='${no}'><br>
+			<input type='hidden' name='userNo' value='${user.userNo}'><br>
 			ID: <input type='text' name='userID' value='${user.userID}'><br>
 			이름: <input type='text' name='userName' value='${user.userName}'><br>
-			암호: <input type='password' name='userPassword' value='${user.userPassword}'><br>
-			권한:
+			암호: <input type='password' name='userPassword'><br>
+			권한: <select id="grade" name='grade'>
+				<option value="1" ${user.grade == 1? "selected" : ""}>관리자</option>
+				<option value="2" ${user.grade == 2? "selected" : ""}>일반</option>
+			</select>
 			<input type='submit' value='수정'>
 			<input type='reset' value='취소'>
 			

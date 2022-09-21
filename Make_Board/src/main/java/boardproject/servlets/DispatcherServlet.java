@@ -30,7 +30,7 @@ public class DispatcherServlet extends HttpServlet {
 			
 			HashMap<String, Object> model = new HashMap<>();
 			model.put("session", request.getSession());
-			
+			model.put("ContextPath", request.getContextPath());
 			Controller pageController = (Controller) context.getBean(servletPath);
 			
 			if (pageController == null) {

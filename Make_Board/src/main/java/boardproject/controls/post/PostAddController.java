@@ -3,10 +3,13 @@ package boardproject.controls.post;
 import java.util.Map;
 
 import boardproject.dao.PostDao;
+import boardproject.vo.User;
 import boardproject.vo.PostVO;
 import boardproject.bind.DataBinding;
 import boardproject.controls.Controller;
 import boardproject.annotation.Component;
+
+import javax.servlet.http.HttpSession; 
 
 @Component("/board/add.do")
 public class PostAddController implements Controller, DataBinding {
@@ -27,6 +30,11 @@ public class PostAddController implements Controller, DataBinding {
 	public String execute(Map<String, Object> model) throws Exception {
 		PostVO postVO = (PostVO) model.get("postVO");
 		
+		HttpSession session = (HttpSession) model.get("session");
+		// loginUser가 있는지
+		User loginUser = (User) session.getAttribute("loginUser");
+		
+		
 		// 제목이 null이면 GET요청
 		if (postVO.getPostSubject() == null) {
 			return "/board/postAdd.jsp";
@@ -35,8 +43,12 @@ public class PostAddController implements Controller, DataBinding {
 					|| postVO.getPostText() == "" || postVO.getPosterName() == "") {
 				return "/auth/CheckNull.jsp";
 			}
-			postDao.insert(postVO);
 			
+			if (loginUser != null && loginUser.getUserNo() != 0) {
+				postDao.insertbyUser(postVO.setPostUserNo(loginUser.getUserNo()));
+			} else {
+				postDao.insert(postVO);
+			}
 			return "redirect:list.do";
 		}
 	}

@@ -58,7 +58,16 @@
 						</c:if>
 						<a href='view.do?no=${postVO.postNo}'>${postVO.postSubject}</a></td>
 					<td>${postVO.postViews}</td>
-					<td>${postVO.posterName}</td>
+					<td>
+						<c:if test="${postVO.postUserNo != null and postVO.postUserNo !=''}">
+							<c:if test="${postVO.postPassword == '1'}">
+								<span style="color:red">[관리자]</span></c:if>
+							<c:if test="${postVO.postPassword == '2'}">
+								<span style="color:blue">[사용자]</span></c:if>
+						</c:if>
+						${postVO.posterName}
+					</td>
+					
 					<td>${postVO.postCreatedDate}</td>
 				</tr>
 			</c:forEach>

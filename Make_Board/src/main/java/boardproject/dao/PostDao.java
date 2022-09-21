@@ -60,6 +60,18 @@ public class PostDao {
 		}
 	}
 	
+	// 게시글 등록 by User
+	public int insertbyUser(PostVO postVO) throws Exception {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		try {
+			int count = sqlSession.insert("boardproject.dao.PostDao.insertbyUser", postVO);
+			sqlSession.commit();
+			return count;
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
 	// 게시글 보기 View
 	public PostVO selectOne(int postNo) throws Exception {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
@@ -110,6 +122,18 @@ public class PostDao {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		try {
 			int count = sqlSession.insert("boardproject.dao.PostDao.insertRepost", repostVO);
+			sqlSession.commit();
+			return count;
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	// Repost 답글달기
+	public int repostbyUser(PostVO repostVO) throws Exception {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		try {
+			int count = sqlSession.insert("boardproject.dao.PostDao.repostbyUser", repostVO);
 			sqlSession.commit();
 			return count;
 		} finally {

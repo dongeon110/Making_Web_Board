@@ -35,7 +35,7 @@
 		<set>
 			<if test="userID != null">userid=#{userID},</if>
 			<if test="userName != null">username=#{userName},</if>
-			<if test="userPassword != null">userpassword=#{userPassword},</if>
+			<if test="userPassword != null and userPassword != ''">userpassword=#{userPassword},</if>
 			<if test="grade != null">grade=#{grade},</if>
 			modifydate=now()
 		</set>

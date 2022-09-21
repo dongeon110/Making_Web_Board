@@ -13,16 +13,24 @@
 	
 	<span style="float:right;">
 		<a style="color:white;" href="<%=request.getContextPath()%>/board/list.do">게시판</a>
-		<!-- 
-		<c:if test="${empty sessionScope.member or empty sessionScope.member.email}">
+		
+		<c:if test="${empty sessionScope.loginUser or empty sessionScope.loginUser.userID}">
 			<a style="color:white;"
 				href="<%=request.getContextPath()%>/auth/login.do">로그인</a>
+			<a style="color:white;"
+				href="<%=request.getContextPath()%>/user/add.do">회원가입</a>
 		</c:if>
-		<c:if test="${!empty sessionScope.member and !empty sessionScope.member.email}">
-			${sessionScope.member.name}
+		<c:if test="${!empty sessionScope.loginUser and !empty sessionScope.loginUser.userID}">
+			<c:if test="${sessionScope.loginUser.grade == 1}">
+				<a style="color:white;" href="<%=request.getContextPath()%>/user/list.do">회원 관리</a>
+				${sessionScope.loginUser.userName} [관리자]
+			</c:if>
+			<c:if test="${sessionScope.loginUser.grade != 1}">
+				${sessionScope.loginUser.userName} [일반]
+			</c:if>
 			(<a style="color:white;"
-				href="<%=request.getContextPath()%>/auth/login.do">로그아웃</a>)
-		</c:if>  -->
+				href="<%=request.getContextPath()%>/auth/logout.do">로그아웃</a>)
+		</c:if>
 	</span>
 	
 

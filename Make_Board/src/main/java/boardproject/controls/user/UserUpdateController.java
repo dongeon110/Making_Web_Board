@@ -1,6 +1,9 @@
 package boardproject.controls.user;
 
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
 import boardproject.vo.User;
 import boardproject.dao.UserDao;
 import boardproject.bind.DataBinding;
@@ -25,6 +28,13 @@ public class UserUpdateController implements Controller, DataBinding {
 	
 	@Override
 	public String execute(Map<String, Object> model) throws Exception {
+		
+		HttpSession session = (HttpSession) model.get("session");
+		User loginUser = (User) session.getAttribute("loginUser");
+		if (loginUser == null || loginUser.getGrade() != 1) {
+			return "/auth/LogInForm.jsp";
+		}
+		
 		User updateUser = (User) model.get("user");
 		if (updateUser.getUserID() == null) {
 			model.put("user", userDao.selectOne((int)model.get("no")));

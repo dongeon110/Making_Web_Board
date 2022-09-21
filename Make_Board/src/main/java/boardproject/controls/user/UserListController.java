@@ -8,6 +8,8 @@ import boardproject.controls.Controller;
 import boardproject.bind.DataBinding;
 import boardproject.annotation.Component;
 
+import javax.servlet.http.HttpSession;
+
 @Component("/user/list.do")
 public class UserListController implements Controller, DataBinding {
 	
@@ -25,6 +27,13 @@ public class UserListController implements Controller, DataBinding {
 	
 	@Override
 	public String execute(Map<String, Object> model) throws Exception {
+		
+		HttpSession session = (HttpSession) model.get("session");
+		User loginUser = (User) session.getAttribute("loginUser");
+		if (loginUser == null || loginUser.getGrade() != 1) {
+			return "/auth/LogInForm.jsp";
+		}
+		
 		int currentPage;
 		int pageSize = 10;
 		if(model.get("pageNum") == null) {

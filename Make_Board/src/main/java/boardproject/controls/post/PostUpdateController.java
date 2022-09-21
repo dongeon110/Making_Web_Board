@@ -29,11 +29,14 @@ public class PostUpdateController implements Controller, DataBinding {
 	public String execute(Map<String, Object> model) throws Exception {
 		PostVO postVO = (PostVO) model.get("postVO");
 		
-		// 비밀번호 확인 페이지
-		if (model.get("password") == null // GET
-				&& postVO.getPostPassword() == null) {
+		// GET - 비밀번호 확인 페이지
+		if (model.get("password") == null
+				&& postVO.getPostPassword() == null
+				) {
 			return "/auth/CheckPostPw.jsp";
-		} else if (postVO.getPostPassword() == null){ // POST
+			
+		// POST - 비밀번호 확인
+		} else if (postVO.getPostPassword() == null){
 			PostVO checkPostVO = new PostVO()
 					.setPostNo((Integer)model.get("no"))
 					.setPostPassword((String)model.get("password"));
@@ -46,6 +49,8 @@ public class PostUpdateController implements Controller, DataBinding {
 			} else {
 				return "/auth/CheckPwFail.jsp";
 			}
+			
+		// POST - NULL 값 체크
 		} else {
 			if (postVO.getPostPassword() == "" || postVO.getPostSubject() == ""
 					|| postVO.getPosterName() == "" || postVO.getPostText() == "") {
