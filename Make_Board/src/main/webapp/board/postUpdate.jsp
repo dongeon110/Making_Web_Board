@@ -1,7 +1,7 @@
 <%@ page import = "boardproject.vo.PostVO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -27,14 +27,18 @@
 				<textarea id="postText"
 				name='postText' rows='5' cols='40'>${postVO.postText}</textarea></li>
 				
-				<li><label for="posterName">작성자</label>
-				<input id="posterName"
-				type='text' name='posterName' value='${postVO.posterName}'></li>
+				<c:if test="${empty sessionScope.loginUser or empty sessionScope.loginUser.userID}">
+					<li><label for="posterName">작성자</label>
+					<input id="posterName"
+					type='text' name='posterName' value='${postVO.posterName}'></li>
+				</c:if>
 				
-				<li><label for="postPassword">비밀번호</label>
-				<input id="postPassword"
-				type='password' name='postPassword' value='${postVO.postPassword}'></li>
-
+				<c:if test="${empty sessionScope.loginUser or empty sessionScope.loginUser.userID}">
+					<li><label for="postPassword">비밀번호</label>
+					<input id="postPassword"
+					type='password' name='postPassword' value='${postVO.postPassword}'></li>
+				</c:if>
+				
 			</ul>
 			<input type='hidden' name='repost' value='${postVO.repost}'>
 			<input type='hidden' name='no' value='${postVO.postNo}'>

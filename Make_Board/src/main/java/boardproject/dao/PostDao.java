@@ -105,6 +105,17 @@ public class PostDao {
 		}
 	}
 	
+	public int updatebyUser(PostVO postVO) throws Exception {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		try {
+			int count = sqlSession.update("boardproject.dao.PostDao.updatebyUser", postVO);
+			sqlSession.commit();
+			return count;
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
 	// Delete
 	public int delete(int postNo) throws Exception {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
