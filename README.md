@@ -137,6 +137,13 @@
 　 　 　└ MANIFEST.MF
 ```
 
+Jdk 11, Tomcat 9.0, mybatis, postgreSQL + JDBC, bootstrap, reflection API  
+
+DB 만들 때 사용한 쿼리문은  
+Make_board/docs/ 에 정리해둠 
+
+~ Create_table board, users 는 postgreSQL이고  
+그냥 table은 변경 전 mariaDB로 했던 SQL
 
 ## 참고자료  
 열혈강의 자바 웹 개발 워크북 - 엄진영 저 [(깃허브)](https://github.com/eomjinyoung/JavaWebProgramming)
