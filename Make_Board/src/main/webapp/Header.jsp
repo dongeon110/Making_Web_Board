@@ -8,7 +8,7 @@
 	class="boardproject.vo.PostVO"/>
 
 
-<div style="background-color:#00008b;color:#ffffff;height:20px;padding:5px;">
+<div style="background-color:#00008b;color:#ffffff;height:35px;padding:5px;">
 	<a style="color:white;" href="<%=request.getContextPath()%>/board/list.do">게시판</a>
 	
 	<span style="float:right;">
