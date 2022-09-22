@@ -39,8 +39,8 @@ public class PostAddController implements Controller, DataBinding {
 		if (postVO.getPostSubject() == null) {
 			return "/board/postAdd.jsp";
 		} else { // POST요청
-			if (postVO.getPostSubject() == "" || postVO.getPostPassword() == ""
-					|| postVO.getPostText() == "" || postVO.getPosterName() == "") {
+			if (postVO.getPostSubject().trim() == "" || postVO.getPostPassword() == ""
+					|| postVO.getPostText().trim() == "" || postVO.getPosterName().trim() == "") {
 				return "/auth/CheckNull.jsp";
 			}
 			

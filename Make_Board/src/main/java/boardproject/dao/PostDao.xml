@@ -70,6 +70,15 @@
 		WHERE PNO = #{postNo}
 	</update>
 	
+	<update id="updatebyUser" parameterType="postVO">
+		UPDATE BOARD SET
+			PSUBJECT = #{postSubject},
+			PTEXT = #{postText},
+			MOD_DATE = now(),
+			BYUSER = #{postUserNo}
+		WHERE PNO = #{postNo}
+	</update>
+	
 	<delete id="delete" parameterType="int">
 		DELETE FROM BOARD WHERE PNO=#{postNo}
 	</delete>
