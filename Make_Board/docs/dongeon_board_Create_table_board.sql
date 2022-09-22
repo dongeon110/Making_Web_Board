@@ -42,3 +42,8 @@ COMMENT ON COLUMN board.byuser IS '작성user 고유no값';
 -- 비밀번호 및 작성자 DROP NOT NULL (작성user 있으면 필요 없기 때문)
 ALTER TABLE board ALTER COLUMN ppwd DROP NOT NULL;
 ALTER TABLE board ALTER COLUMN postername DROP NOT NULL;
+
+-- forien key DELETE CASCADE로 재 설정
+ALTER TABLE board
+DROP CONSTRAINT "board_byuser_fkey",
+ADD CONSTRAINT "board_byuser_fkey" FOREIGN KEY ("byuser") REFERENCES users("userno") ON DELETE CASCADE;
