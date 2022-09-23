@@ -24,7 +24,7 @@
  　　└ update.do    (사용자 수정)
 ```
 
-## 동작 과정
+<!-- ## 동작 과정
 1. 서버 실행  
 2. ServletContextListener를 구현한 ContextLoaderListener 에서 contextInitialized() 메서드 구현  
 2.1. ApplicationContext 객체 생성  
@@ -34,7 +34,7 @@
 4. FrontController역할을 수행하는 DispatcherServlet이 요청을 받음  
 5. HashMap 객체를 하나 만들어 데이터를 요청에 따라 데이터를 가져감  
 6. 각 pageController들 (Controller구현한 것, controls패키지 안)들이 반환하는 값들로 주소 맵핑하여 요청 처리
-
+ -->
 ## 역할
 - Model
     - Dao
