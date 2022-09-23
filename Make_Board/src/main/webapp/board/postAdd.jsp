@@ -49,8 +49,8 @@
 				
 			</ul>
 			
-			<input type='submit' value='추가'>
-			<input type='reset' value='취소'>
+			<input type='submit' value='등록하기'>
+			<input type='reset' value='다시쓰기'>
 		</form>
 		<jsp:include page="/Tail.jsp"/>
 		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>

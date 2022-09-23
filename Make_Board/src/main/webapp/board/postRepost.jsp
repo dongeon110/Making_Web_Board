@@ -48,8 +48,8 @@
 				</c:if>
 			</ul>
 			<input type='hidden' name='no' value='${no}'>
-			<input type='submit' value='추가'>
-			<input type='reset' value='취소'>
+			<input type='submit' value='답글달기'>
+			<input type='reset' value='다시쓰기'>
 		</form>
 		
 		<jsp:include page="/Tail.jsp"/>

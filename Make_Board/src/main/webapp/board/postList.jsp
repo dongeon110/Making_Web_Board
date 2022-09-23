@@ -71,7 +71,7 @@
 						<li><a href='list.do?pageNum=${startPage-1}'>&lt;이전&gt;</a></li>
 					</c:if>
 					<c:forEach var='page' begin='${startPage}' end='${endPage}'>
-						<li><a href='list.do?pageNum=${page}'>&lt;${page}&gt;</a></li>
+						<li><a href='list.do?pageNum=${page}' ${page == pageNum? "style='color: black'" : ""}>&lt;${page}&gt;</a></li>
 					</c:forEach>
 					<c:if test='${endPage != cntPage}' var='next'>
 						<li><a href='list.do?pageNum=${endPage+1}'>&lt;다음&gt;</a></li>
