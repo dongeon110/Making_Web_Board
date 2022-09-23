@@ -45,6 +45,22 @@
     - FrontController 역할 : DispatcherServlet
     - PageController 역할 : boardproject/controls 내의 controller 구현한 객체들
 
+### 스프링과 비교  
+스프링 빈의 LifeCycle의 경우  
+스프링 IoC 컨테이너 생성 -> 스프링 빈 생성 -> 의존관계 주입 -> 초기화 콜백 메소드 호출 -> 사용 -> 소멸 전 콜백 메소드 호출  
+
+스프링에서 사용하는 방식과 이름을 최대한 일치 시켜서 사용했음.
+- ContextLoaderListener.java 에서 contextInitialized() 메서드 호출시 ApplicationContext (IoC Container역할) 생성  
+- ApplicationContext 에서 Hashtable 형태로 빈 생성  
+- ApplicationContext 에서 정의한 메소드로 의존관계 주입  
+  - prepareObjectByAnnotation() : Reflection API로 Annotation이 있는 클래스들을 찾아 빈을 생성해줌    
+  - prepareObjectByProperties() : properties 파일에 정의된 클래스들을 찾아 빈을 해줌. (서버에서 제공하는 객체는 예외처리. 이것도 properties 파일에서 선언)  
+  - injectDependecy() : 준비된 빈들의 의존 관계를 주입해줌.
+    - callSetter() : 의존성 주입을 하는 메서드들을 set~ 으로 정의하였기 때문에 set으로 시작하는 메서드들을 찾아 호출
+    - findObjectByType() : 의존성 주입을 위해 받은 파라미터의 객체의 타입을 찾아서 알맞게 반환
+
+- ContextLoaderListener가 ApplicationContext를 생성하고 
+  ApplicationContext 내의 메서드들을 호출하여 사용하면서 일어남
 ## src
 ```
 　┬ src/main/java/
