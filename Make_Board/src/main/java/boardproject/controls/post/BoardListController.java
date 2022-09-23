@@ -32,7 +32,8 @@ public class BoardListController implements Controller, DataBinding {
 		return new Object[] {
 				"pageNum", String.class,
 				"column", String.class,
-				"search", String.class
+				"search", String.class,
+				"viewNo", String.class
 		};
 	}
 	
@@ -43,6 +44,14 @@ public class BoardListController implements Controller, DataBinding {
 		HttpSession session = (HttpSession) model.get("session");
 		// 현재 페이지 (입력 없으면 1페이지) + 세션 초기화
 		int currentPage;
+		int pageBlock = 5; // 한 화면에 보여줄 페이지 블록 수
+		boolean existViewNo;
+		if(model.get("viewNo") == null) {
+			existViewNo = false;
+		} else {
+			existViewNo = true;
+		}
+		
 		int pageSize = 10; // 한페이지 게시물 수 초기값
 		if(model.get("pageNum") == null) {
 			currentPage = 1;
@@ -51,17 +60,13 @@ public class BoardListController implements Controller, DataBinding {
 		} else {
 			currentPage = Integer.parseInt((String)model.get("pageNum"));
 		}
-		model.put("pageNum", currentPage);
+		
 		
 		// pageSize 입력 있으면 입력값 설정
 		if (model.get("pageSize") != null && model.get("pageSize") != "") {
 			pageSize = Integer.parseInt((String)model.get("pageSize"));
 		}
 		session.setAttribute("pageSize", pageSize);
-		
-		
-		
-		
 		
 		// 한 페이지에 보여줄 게시물 갯수
 		model.put("pageSize", pageSize);
@@ -99,10 +104,46 @@ public class BoardListController implements Controller, DataBinding {
 		model.put("postVOs", postList);
 		// 총 게시글 갯수
 		int cntPost = 0;
+		int cntFindView = 0;
 		for (PostVO postVO : postList) {
 			cntPost++;
+			if (existViewNo && Integer.parseInt((String)model.get("viewNo")) == postVO.getPostNo() ) {
+				cntFindView = cntPost;
+			}
 		}
+		if (existViewNo) {
+			int viewNo = Integer.parseInt((String)model.get("viewNo"));
+			
+			for(int findPage=1; findPage<cntPost; findPage++) {
+				if (cntFindView <= pageSize*findPage) {
+					currentPage = findPage;
+					break;
+				}
+ 			}
+			if (cntFindView == 0) {
+				currentPage = 1;
+			}
+			
+		}
+		
 		model.put("cntPost", cntPost);
+		model.put("pageNum", currentPage);
+		// 페이지 구성
+		int pageNum = currentPage;
+		int cntPage = cntPost / pageSize + (cntPost%pageSize==0? 0:1); // 전체 페이지 수
+		
+		model.put("cntPage", cntPage);
+		
+		// 블록 시작과 끝
+		int startPage = ((pageNum-1)/pageBlock)*pageBlock +1;
+		int endPage = startPage + pageBlock - 1;
+		if (endPage>cntPage) {endPage = cntPage;}
+		
+		model.put("startPage", startPage);
+		model.put("endPage", endPage);
+		
+		int startRow = (pageNum-1) * pageSize;
+		model.put("startRow", startRow);
 		
 		return "/board/postList.jsp";
 	}

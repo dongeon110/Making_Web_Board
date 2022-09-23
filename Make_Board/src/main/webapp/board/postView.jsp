@@ -50,7 +50,7 @@
 		<form action="repost.do" method="get">
 			<input type='hidden' name='no' value='${postVO.repost}'>
 			<input type='button' value='수정하기' onclick='location.href="update.do?no=${postVO.postNo}";'>
-			<input type='button' value='돌아가기' onclick='history.back()'>
+			<input type='button' value='돌아가기' onclick='location.href="list.do?viewNo=${postVO.postNo}"'>
 			<input type='button' value='삭제하기' onclick='location.href="delete.do?no=${postVO.postNo}";'>
 			<input type='submit' value='답글달기'>
 		</form>
