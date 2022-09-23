@@ -15,32 +15,6 @@
 	
 		<jsp:include page="/Header.jsp"/>
 		
-		
-		<%
-		// 페이지 구성
-		int pageNum = (int)request.getAttribute("pageNum"); // 현재 페이지
-		int pageSize = (int)session.getAttribute("pageSize"); // 페이지당 게시물 수
-		int cntPost = (int)request.getAttribute("cntPost"); // 전체 게시물 수
-		int cntPage = cntPost / pageSize + (cntPost%pageSize==0? 0:1); // 전체 페이지 수
-		
-		pageContext.setAttribute("cntPage", cntPage);
-		
-		// 한 화면에 보여줄 페이지 블록 수
-		int pageBlock = 5;
-		
-		// 블록 시작과 끝
-		int startPage = ((pageNum-1)/pageBlock)*pageBlock +1;
-		int endPage = startPage + pageBlock - 1;
-		if (endPage>cntPage) {endPage = cntPage;}
-		
-		pageContext.setAttribute("startPage", startPage);
-		pageContext.setAttribute("endPage", endPage);
-		
-		int startRow = (pageNum-1) * pageSize;
-		pageContext.setAttribute("startRow", startRow);
-		%>
-		
-		
 		<div class='text-center'>
 			<h1>게시글 목록</h1>
 		</div>
@@ -57,7 +31,7 @@
 				</tr>
 				
 				
-				<c:forEach var="postVO" items="${postVOs}" begin="${startRow}" end="${startRow + pageSize}">
+				<c:forEach var="postVO" items="${postVOs}" begin="${startRow}" end="${startRow + pageSize-1}">
 					<tr>
 						<td style="text-align: center;">${postVO.postNo}</td>
 						<td>
