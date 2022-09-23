@@ -26,7 +26,6 @@
 				<textarea id="postText"
 				name='postText' rows='5' cols='40'></textarea></li>
 				
-				
 				<c:if test="${empty sessionScope.loginUser or empty sessionScope.loginUser.userID}">
 					<li><label for="posterName">작성자</label>
 					<input id="posterName"
@@ -37,8 +36,6 @@
 					<input id="posterName"
 					type='hidden' name='posterName' value='${sessionScope.loginUser.userID}'>
 				</c:if>
-			
-			
 			
 				<c:if test="${empty sessionScope.loginUser or empty sessionScope.loginUser.userID}">
 					<li><label for="postPassword">비밀번호</label>

@@ -25,7 +25,6 @@ public class ContextLoaderListener implements ServletContextListener {
 		return applicationContext;
 	}
 	
-	
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
 		try {
