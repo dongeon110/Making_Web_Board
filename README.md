@@ -57,7 +57,7 @@
 　│　 　│　└ ServletRequestDataBinder.java
 　│　 　│
 　│　 　├ context/
-　│　 　│　└ ApplicationContext.java
+　│　 　│　└ ApplicationContext.java   (IoC Container 역할)
 　│　 　│　 
 　│　 　├ listeners/
 　│　 　│　└ ContextLoaderListener.java
