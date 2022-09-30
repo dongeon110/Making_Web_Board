@@ -63,7 +63,7 @@ public class PostViewController implements Controller, DataBinding {
 		if(cookie == null) { // viewNo 쿠키 없으면 만들고 조회수 +1
 			cookie = new Cookie(viewNo, loginUserNo);
 			postDao.increaseViews(no); // 조회수 1 증가
-			cookie.setMaxAge(60*60); // 1시간
+			cookie.setMaxAge(60); // 1시간
 			newCookies[cookies.length] = cookie;
 			model.put("cookies", newCookies);
 		} else {
