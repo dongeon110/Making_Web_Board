@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Cookie;
 
 import boardproject.vo.PostVO;
 import boardproject.listeners.ContextLoaderListener;
@@ -30,7 +31,9 @@ public class DispatcherServlet extends HttpServlet {
 			
 			HashMap<String, Object> model = new HashMap<>();
 			model.put("session", request.getSession());
+			model.put("cookies", request.getCookies());
 			model.put("ContextPath", request.getContextPath());
+			
 			Controller pageController = (Controller) context.getBean(servletPath);
 			
 			if (pageController == null) {
@@ -42,7 +45,12 @@ public class DispatcherServlet extends HttpServlet {
 			}
 			
 			String viewUrl = pageController.execute(model);
-			
+			// cookies
+			Cookie[] cookies = (Cookie[]) model.get("cookies");
+			for (Cookie cookie : cookies) {
+				response.addCookie(cookie);
+			}
+			//
 			for (String key : model.keySet()) {
 				request.setAttribute(key, model.get(key));
 			}

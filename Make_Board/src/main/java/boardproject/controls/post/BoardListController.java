@@ -53,12 +53,14 @@ public class BoardListController implements Controller, DataBinding {
 		}
 		
 		int pageSize = 10; // 한페이지 게시물 수 초기값
-		if(model.get("pageNum") == null) {
+		if(model.get("pageNum") == null && model.get("viewNo") == null) {
 			currentPage = 1;
 			// 세션 초기화
 			session.setAttribute("search", "");
-		} else {
+		} else if (model.get("pageNum") != null) {
 			currentPage = Integer.parseInt((String)model.get("pageNum"));
+		} else {
+			currentPage = 1;
 		}
 		
 		
