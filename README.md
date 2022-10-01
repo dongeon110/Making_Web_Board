@@ -194,3 +194,12 @@ Make_board/docs/ 에 정리해둠
 
 ## 참고자료  
 열혈강의 자바 웹 개발 워크북 - 엄진영 저 [(깃허브)](https://github.com/eomjinyoung/JavaWebProgramming)
+
+
+## 필요한 개선점  
+1. (관리자) 삭제 글 복구 기능  
+2. 글번호 개선  
+3. Date -> Datetime  
+4. 답글 depth, 제한  
+5. 원글 삭제시 답글 조치  
+6. 비밀번호 암호화  
